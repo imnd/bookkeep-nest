@@ -1,15 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
+import {RowDto} from "../share/row.dto";
 
-export class CreateContractRowDto {
-  @ApiProperty({example: 1, description: 'Contract ID'})
-  contractId: number;
-
+export class CreateContractRowDto extends RowDto {
   @ApiProperty({example: 1, description: 'Article ID'})
   readonly articleId: number;
-
-  @ApiProperty({example: 50, description: 'Article units quantity'})
-  readonly quantity: number;
-
-  @ApiProperty({example: 25, description: 'Article units price'})
-  readonly price: number;
 }

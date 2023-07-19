@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
@@ -12,8 +13,9 @@ import { InvoiceBill } from "./invoice-bill.model";
 import { Bill } from "../bills/bills.model";
 import { DocumentModel } from "../share/document-model";
 
-interface InvoiceCreationInterface extends DocumentCreationInterface {
+interface InvoiceInterface extends DocumentCreationInterface {
   clientId: number;
+  clientName: number;
   invoiceNum: string;
   contractNum: string;
   paid: number;
@@ -23,7 +25,7 @@ interface InvoiceCreationInterface extends DocumentCreationInterface {
 @Table({
   tableName: "invoices",
 })
-export class Invoice extends DocumentModel<Invoice, InvoiceCreationInterface> {
+export class Invoice extends DocumentModel<Invoice, InvoiceInterface> {
   @ApiProperty({ example: "3663FG36T", description: "Invoice number" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.STRING,
@@ -61,6 +63,11 @@ export class Invoice extends DocumentModel<Invoice, InvoiceCreationInterface> {
   })
   date: string;
 
+  // Relations
+
   @BelongsToMany(() => Bill, () => InvoiceBill)
   bills: Bill[];
+
+  @BelongsTo(() => Client, "clientId")
+  client: Client;
 }

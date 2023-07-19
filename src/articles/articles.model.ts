@@ -1,4 +1,11 @@
-import { BelongsToMany, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
 import { ApiProperty } from "@nestjs/swagger";
 import { Client } from "../clients/clients.model";
@@ -10,14 +17,14 @@ interface ArticleCreationInterface {
   name: string;
   price: number;
   unit: string;
+  active?: boolean;
 }
 
 @Table({
-  tableName: 'articles',
+  tableName: "articles",
 })
-
 export class Article extends Model<Article, ArticleCreationInterface> {
-  @ApiProperty({example: 1, description: 'Primary key'})
+  @ApiProperty({ example: 1, description: "Primary key" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.INTEGER,
     unique: true,
@@ -26,7 +33,7 @@ export class Article extends Model<Article, ArticleCreationInterface> {
   })
   id: number;
 
-  @ApiProperty({example: 2, description: 'Subcategory ID'})
+  @ApiProperty({ example: 2, description: "Subcategory ID" })
   @ForeignKey(() => ArticleSubcategory)
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.INTEGER,
@@ -34,21 +41,29 @@ export class Article extends Model<Article, ArticleCreationInterface> {
   })
   subcatId: number;
 
-  @ApiProperty({example: 'Apples Fushi', description: 'Article title'})
+  @ApiProperty({ example: "Apples Fushi", description: "Article title" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.STRING,
     allowNull: false,
   })
   name: string;
 
-  @ApiProperty({example: 245, description: 'Price of one article unit'})
+  @ApiProperty({ example: 245, description: "Price of one article unit" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.INTEGER,
     allowNull: false,
   })
   price: number;
 
-  @ApiProperty({example: true, description: 'Is article in list'})
+  @ApiProperty({ example: "kg", description: "Article unit" })
+  @Column(<ModelAttributeColumnOptions>{
+    type: DataType.ENUM("kg", "item"),
+    defaultValue: "kg",
+    allowNull: false,
+  })
+  unit: string;
+
+  @ApiProperty({ example: true, description: "Is article in list" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.BOOLEAN,
     allowNull: false,
@@ -56,14 +71,6 @@ export class Article extends Model<Article, ArticleCreationInterface> {
   })
   active: boolean;
 
-  @ApiProperty({example: 'kg', description: 'Article unit'})
-  @Column(<ModelAttributeColumnOptions>{
-    type: DataType.ENUM('kg', 'item'),
-    defaultValue: 'kg',
-    allowNull: false,
-  })
-  unit: string;
-
   @BelongsToMany(() => Client, () => ClientArticlePrice)
-  clients: Client[]
+  clients: Client[];
 }

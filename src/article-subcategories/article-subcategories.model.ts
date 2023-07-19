@@ -1,4 +1,11 @@
-import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
 import { ApiProperty } from "@nestjs/swagger";
 import { ArticleCategory } from "../article-categories/article-categories.model";
@@ -9,11 +16,13 @@ interface ArticleSubcategoryCreationInterface {
 }
 
 @Table({
-  tableName: 'article-subcategories',
+  tableName: "article-subcategories",
 })
-
-export class ArticleSubcategory extends Model<ArticleSubcategory, ArticleSubcategoryCreationInterface> {
-  @ApiProperty({example: 1, description: 'Primary key'})
+export class ArticleSubcategory extends Model<
+  ArticleSubcategory,
+  ArticleSubcategoryCreationInterface
+> {
+  @ApiProperty({ example: 1, description: "Primary key" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.INTEGER,
     unique: true,
@@ -22,7 +31,7 @@ export class ArticleSubcategory extends Model<ArticleSubcategory, ArticleSubcate
   })
   id: number;
 
-  @ApiProperty({example: 2, description: 'Article category ID'})
+  @ApiProperty({ example: 2, description: "Article category ID" })
   @ForeignKey(() => ArticleCategory)
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.INTEGER,
@@ -30,10 +39,15 @@ export class ArticleSubcategory extends Model<ArticleSubcategory, ArticleSubcate
   })
   catId: number;
 
-  @ApiProperty({example: 'Fruits', description: 'Article subcategory title'})
+  @ApiProperty({ example: "Fruits", description: "Article subcategory title" })
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.STRING,
     allowNull: false,
   })
   name: string;
+
+  // Relations
+
+  @BelongsTo(() => ArticleCategory, "catId")
+  category: ArticleCategory;
 }

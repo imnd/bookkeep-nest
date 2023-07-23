@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { CreateInvoiceDto } from "./create-invoice.dto";
 import { InvoicesService } from "./invoices.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -28,6 +28,13 @@ export class InvoicesController {
   @Get(":id")
   get(@Param() param: { id: string }) {
     return this.service.find(param.id);
+  }
+
+  @ApiOperation({ summary: "Delete invoice by ID" })
+  @ApiResponse({ status: 200 })
+  @Delete(":id")
+  delete(@Param() param: { id: string }) {
+    return this.service.delete(param.id);
   }
 
   @ApiOperation({ summary: "Get all invoices" })

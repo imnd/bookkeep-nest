@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { CreateArticleDto } from "./create-article.dto";
 import { ArticlesService } from "./articles.service";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -29,6 +29,13 @@ export class ArticlesController {
   update(@Param() param: { id: string }, @Body() dto: CreateArticleDto) {
     dto.active = dto.active ? dto.active : false;
     return this.service.update(param.id, dto);
+  }
+
+  @ApiOperation({ summary: "Delete article" })
+  @ApiResponse({ status: 200 })
+  @Delete(":id")
+  delete(@Param() param: { id: string }) {
+    return this.service.delete(param.id);
   }
 
   @ApiOperation({ summary: "Get all articles" })

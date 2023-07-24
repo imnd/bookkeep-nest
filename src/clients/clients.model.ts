@@ -1,10 +1,11 @@
-import { BelongsToMany, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
+import {BelongsTo, BelongsToMany, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
 import { ApiProperty } from "@nestjs/swagger";
 import { Article } from "../articles/articles.model";
 import { Bank } from "../banks/banks.model";
 import { Region } from "../regions/regions.model";
 import { ClientArticlePrice } from "./client-article-prices.model";
+import {ArticleCategory} from "../article-categories/article-categories.model";
 
 interface ClientCreationInterface {
   regionId: number;
@@ -115,6 +116,14 @@ export class Client extends Model<Client, ClientCreationInterface> {
   })
   active: boolean;
 
+  // Relations
+
   @BelongsToMany(() => Article, () => ClientArticlePrice)
   articles: Article[]
+
+  @BelongsTo(() => Bank, "bankId")
+  bank: Bank;
+
+  @BelongsTo(() => Region, "regionId")
+  region: Region;
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { Article } from "./articles.model";
 import { InjectModel } from "@nestjs/sequelize";
+import { Article } from "./articles.model";
 import { Service } from "../share/service";
 
 @Injectable()

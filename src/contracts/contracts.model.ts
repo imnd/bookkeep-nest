@@ -1,14 +1,16 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
-  Model,
+  HasMany,
   Table,
 } from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
 import { ApiProperty } from "@nestjs/swagger";
 import { Client } from "../clients/clients.model";
 import { DocumentModel } from "../share/document-model";
+import { ContractRow } from "../contract-rows/contract-rows.model";
 
 interface ContractCreationInterface extends DocumentCreationInterface {
   clientId: number;
@@ -70,4 +72,12 @@ export class Contract extends DocumentModel<
     allowNull: true,
   })
   termEnd: string;
+
+  // Relations
+
+  @BelongsTo(() => Client, "clientId")
+  client: Client;
+
+  @HasMany(() => ContractRow, "parentId")
+  rows?: ContractRow[];
 }

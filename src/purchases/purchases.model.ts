@@ -1,7 +1,8 @@
-import { Column, DataType, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Table } from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
 import { ApiProperty } from "@nestjs/swagger";
 import { DocumentModel } from "../share/document-model";
+import { PurchaseRow } from "../purchase-rows/purchase-rows.model";
 
 interface PurchaseCreationInterface extends DocumentCreationInterface {
   number: string;
@@ -44,4 +45,9 @@ export class Purchase extends DocumentModel<
     allowNull: false,
   })
   date: string;
+
+  // Relations
+
+  @HasMany(() => PurchaseRow, "parentId")
+  rows?: PurchaseRow[];
 }

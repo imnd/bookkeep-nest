@@ -1,7 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, DataType, ForeignKey, Model } from "sequelize-typescript";
+import { Column, DataType, Model } from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
-import { Contract } from "../contracts/contracts.model";
 
 export abstract class RowModel<RowModel, RowInterface> extends Model<
   RowModel,
@@ -17,7 +16,6 @@ export abstract class RowModel<RowModel, RowInterface> extends Model<
   id: number;
 
   @ApiProperty({ example: 1, description: "Parent ID" })
-  @ForeignKey(() => Contract)
   @Column(<ModelAttributeColumnOptions>{
     type: DataType.INTEGER,
     allowNull: false,

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateArticleDto } from "./create-article.dto";
 import { ArticlesService } from "./articles.service";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Article } from "./articles.model";
 
 @ApiTags("Articles")

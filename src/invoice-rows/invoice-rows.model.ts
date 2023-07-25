@@ -1,8 +1,17 @@
-import { Column, DataType, ForeignKey, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  HasOne,
+  Table,
+} from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
 import { ApiProperty } from "@nestjs/swagger";
 import { Article } from "../articles/articles.model";
 import { RowModel } from "../share/row-model";
+import { Contract } from "../contracts/contracts.model";
+import { Invoice } from "../invoices/invoices.model";
 
 interface InvoiceRowCreationInterface extends RowCreationInterface {
   articleId: number;
@@ -22,4 +31,9 @@ export class InvoiceRow extends RowModel<
     allowNull: false,
   })
   articleId: number;
+
+  // Relations
+
+  @BelongsTo(() => Article, "articleId")
+  article: Article[];
 }

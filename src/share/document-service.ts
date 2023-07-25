@@ -60,11 +60,13 @@ export class DocumentService extends Service {
     let rows = [],
       sum = 0;
 
-    for (const rowData of rowsData) {
-      rowData["parentId"] = parentId;
-      let row = await this.service.create(rowData);
-      rows.push(row);
-      sum += row.price * row.quantity;
+    if (rowsData) {
+      for (const rowData of rowsData) {
+        rowData["parentId"] = parentId;
+        let row = await this.service.create(rowData);
+        rows.push(row);
+        sum += row.price * row.quantity;
+      }
     }
 
     return { rows, sum };

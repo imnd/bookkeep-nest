@@ -4,6 +4,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Table,
 } from "sequelize-typescript";
 import { ModelAttributeColumnOptions } from "sequelize";
@@ -12,6 +13,7 @@ import { Client } from "../clients/clients.model";
 import { InvoiceBill } from "./invoice-bill.model";
 import { Bill } from "../bills/bills.model";
 import { DocumentModel } from "../share/document-model";
+import { InvoiceRow } from "../invoice-rows/invoice-rows.model";
 
 interface InvoiceInterface extends DocumentCreationInterface {
   clientId: number;
@@ -70,4 +72,7 @@ export class Invoice extends DocumentModel<Invoice, InvoiceInterface> {
 
   @BelongsTo(() => Client, "clientId")
   client: Client;
+
+  @HasMany(() => InvoiceRow, "parentId")
+  rows?: InvoiceRow[];
 }

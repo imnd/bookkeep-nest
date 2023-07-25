@@ -5,6 +5,8 @@ import { InvoiceRowsService } from "../invoice-rows/invoice-rows.service";
 import { DocumentService } from "../share/document-service";
 import { FindOptions } from "sequelize/types/model";
 import { Client } from "../clients/clients.model";
+import { RowModel } from "../share/row-model";
+import { InvoiceRow } from "../invoice-rows/invoice-rows.model";
 
 @Injectable()
 export class InvoicesService extends DocumentService {
@@ -17,7 +19,10 @@ export class InvoicesService extends DocumentService {
 
   async find(id: string) {
     return await this.repository.findByPk(id, {
-      include: [{ model: Client, as: "client" }],
+      include: [
+        { model: Client, as: "client" },
+        { model: InvoiceRow, as: "rows" },
+      ],
     });
   }
 
@@ -25,7 +30,10 @@ export class InvoicesService extends DocumentService {
     return await this.repository.findAll(<FindOptions>{
       ...options,
       ...{
-        include: [{ model: Client, as: "client" }],
+        include: [
+          { model: Client, as: "client" },
+          { model: InvoiceRow, as: "rows" },
+        ],
       },
     });
   }
